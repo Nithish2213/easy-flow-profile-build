@@ -16,16 +16,13 @@ function OtpInput({ length = 6, onComplete }) {
     if (isNaN(value)) return;
 
     const newOtp = [...otp];
-    // Allow only one digit
     newOtp[index] = value.substring(value.length - 1);
     setOtp(newOtp);
 
-    // Check if we've filled the current box and there is a next box
     if (value && index < length - 1) {
       inputRefs.current[index + 1].focus();
     }
 
-    // Check if the OTP is complete
     const joinedOtp = newOtp.join('');
     if (joinedOtp.length === length) {
       onComplete(joinedOtp);
@@ -33,7 +30,6 @@ function OtpInput({ length = 6, onComplete }) {
   };
 
   const handleKeyDown = (e, index) => {
-    // Move to previous input on backspace
     if (e.key === 'Backspace' && !otp[index] && index > 0) {
       inputRefs.current[index - 1].focus();
     }
@@ -57,21 +53,18 @@ function OtpInput({ length = 6, onComplete }) {
 
     setOtp(newOtp);
     
-    // Focus on the next empty input or the last one
     const focusIndex = Math.min(pastedData.length, length - 1);
     if (inputRefs.current[focusIndex]) {
       inputRefs.current[focusIndex].focus();
     }
 
-    // Check if OTP is complete after paste
-    const joinedOtp = newOtp.join('');
-    if (joinedOtp.length === length) {
-      onComplete(joinedOtp);
+    if (pastedData.length === length) {
+      onComplete(pastedData);
     }
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-3">
       {Array.from({ length }, (_, index) => (
         <input
           key={index}
@@ -82,7 +75,7 @@ function OtpInput({ length = 6, onComplete }) {
           onChange={(e) => handleChange(e, index)}
           onKeyDown={(e) => handleKeyDown(e, index)}
           onPaste={handlePaste}
-          className="w-12 h-12 text-center border border-gray-300 rounded-md text-lg"
+          className="w-12 h-12 text-center text-xl font-semibold bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
         />
       ))}
     </div>
