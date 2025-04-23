@@ -1,0 +1,48 @@
+
+import React from 'react';
+
+function Input({ 
+  label, 
+  type = "text", 
+  placeholder, 
+  value, 
+  onChange,
+  icon,
+  prefix,
+  readOnly = false,
+  required = false,
+  className = ""
+}) {
+  return (
+    <div className={`mb-4 ${className}`}>
+      {label && <label className="block text-gray-700 mb-2">{label}</label>}
+      <div className="relative">
+        {prefix && (
+          <div className="absolute inset-y-0 left-0 flex items-center px-3 bg-gray-100 border-r border-gray-300 rounded-l-md">
+            {prefix}
+          </div>
+        )}
+        <input
+          type={type}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          readOnly={readOnly}
+          required={required}
+          className={`w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-green-500 ${
+            prefix ? 'pl-12' : ''
+          } ${
+            icon ? 'pr-10' : ''
+          }`}
+        />
+        {icon && (
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            {icon}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default Input;
